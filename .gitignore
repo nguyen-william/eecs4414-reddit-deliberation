@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data (too big for GitHub; shared on Google Drive)
+*_final.csv
+*_comments.csv
+*_post_authors*.csv
+*_thread_metrics.csv
+EECS4414/
+data/

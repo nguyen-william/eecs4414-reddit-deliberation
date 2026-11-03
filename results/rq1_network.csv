@@ -1,0 +1,2 @@
+subreddit,nodes,edges,total_replies,isolated_users,mean_degree,density,reciprocity,lcc_share,lcc_nodes,lcc_edges,C,L,C_er,L_er,C_config,L_config,sigma,alpha,xmin,pl_vs_lognormal_R,pl_vs_lognormal_p
+toronto,25186,353165,483913,306,22.44,0.000557,0.4,0.987,24871,282573,0.1513,3.217,0.0009,3.5836,0.0807,3.2818,187.3,2.12,54,-46.89,0.0
