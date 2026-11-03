@@ -1,0 +1,6 @@
+pandas>=2.0
+numpy>=1.24
+networkx>=3.0
+matplotlib>=3.7
+convokit>=3.0.0
+scikit-learn>=1.3
