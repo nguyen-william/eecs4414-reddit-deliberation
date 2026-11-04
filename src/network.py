@@ -51,7 +51,11 @@ def null_models(U: nx.Graph, n_samples: int = 5, seed: int = 0, n_sources: int =
         cm = largest_component(cm)
         results["C_config"].append(nx.average_clustering(cm))
         results["L_config"].append(avg_path_length(cm, n_sources, seed + i))
-    return {k: round(float(np.mean(v)), 4) for k, v in results.items()}
+    summary = {}
+    for k, v in results.items():
+        summary[k] = round(float(np.mean(v)), 4)
+        summary[k + "_std"] = round(float(np.std(v)), 4)
+    return summary
 
 
 def network_properties(G: nx.DiGraph, n_samples: int = 5, seed: int = 0) -> dict:
