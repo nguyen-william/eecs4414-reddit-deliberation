@@ -2,7 +2,7 @@ import networkx as nx
 import pandas as pd
 
 from src.actor_layer import build_actor_layer, basic_stats
-from src.network import null_models
+from src.network import null_models, avg_clustering, analysis_settings, degree_ccdf, expected_er_clustering, small_world_sigma
 
 POST_AUTHORS = {"T1": "Mona"}
 
@@ -54,6 +54,37 @@ def test_null_models_report_spread():
     for key in ["C_er", "L_er", "C_config", "L_config"]:
         assert nulls[key] > 0
         assert nulls[key + "_std"] >= 0
+
+
+def test_sampled_clustering_close_to_exact():
+    U = nx.powerlaw_cluster_graph(3000, 4, 0.3, seed=1)
+    exact = avg_clustering(U)
+    sampled = avg_clustering(U, n_nodes=1500, seed=0)
+    assert abs(exact - sampled) < 0.03
+
+
+def test_settings_switch_for_big_graphs():
+    assert analysis_settings(25_000)["clustering_nodes"] is None
+    assert analysis_settings(500_000)["clustering_nodes"] == 20_000
+
+
+def test_degree_ccdf():
+    G, _ = build_actor_layer(toy_comments(), POST_AUTHORS)
+    x, ccdf = degree_ccdf(G)
+    assert list(x) == [1, 2]
+    assert list(ccdf) == [1.0, 0.5]
+
+
+def test_expected_er_clustering_matches_random_graphs():
+    n, m = 2000, 10000
+    measured = nx.average_clustering(nx.gnm_random_graph(n, m, seed=0))
+    assert abs(measured - expected_er_clustering(n, m)) < 0.002
+
+
+def test_sigma_is_one_for_a_random_graph_itself():
+    n, m = 1000, 5000
+    p = expected_er_clustering(n, m)
+    assert abs(small_world_sigma(p, 3.0, n, m, 3.0) - 1.0) < 1e-9
 
 
 if __name__ == "__main__":
